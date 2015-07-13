@@ -6,5 +6,9 @@ angular.module('profileKingApp')
       .when('/', {
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl'
+      })
+      .when('/callback', {
+      	templateUrl: 'app/main/main.html',
+        controller: 'MainCtrl'
       });
   });

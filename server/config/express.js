@@ -11,9 +11,11 @@ var compression = require('compression');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
+var session = require('cookie-session');
 var errorHandler = require('errorhandler');
 var path = require('path');
 var config = require('./environment');
+var xmlparser = require('express-xml-bodyparser');
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -24,9 +26,12 @@ module.exports = function(app) {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(xmlparser());
   app.use(methodOverride());
   app.use(cookieParser());
-  
+  app.use(session({
+    keys: ['keys1', 'keys2']
+  }));
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
@@ -42,4 +47,7 @@ module.exports = function(app) {
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
   }
+
+
+
 };

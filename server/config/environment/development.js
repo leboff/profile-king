@@ -7,6 +7,5 @@ module.exports = {
   mongo: {
     uri: 'mongodb://localhost/profileking-dev'
   },
-
   seedDB: true
 };

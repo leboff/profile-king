@@ -2,23 +2,38 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
+    <h1>Profile King</h1>
     <img src="assets/images/yeoman.png" alt="I'm Yeoman">
   </div>
 </header>
+<style>
 
+</style>
 <div class="container">
-  <div class="row">
+  <div class="row" >
     <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in awesomeThings">
-        <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}</a></li>
-      </ul>
+      <a href="#" ng-click="addOrg()">Add Org</a>
+      <a href="#" ng-click="query()">Query</a>
     </div>
   </div>
+  <div class="row">
+    <select ng-model="org" ng-options="org.identity().username for org in orgs">
+    </select>
+    <select ng-model="profile" ng-options="profile.fullName for profile in org.profiles()">
+    </select>
+    <button ng-show="org && profile" ng-click="addProfile(org, profile)">Add</button>
+  </div>
+  <div class="row" ng-repeat="profile in profiles">
+    <div class="col-md-6">
+      <h1>{{profile.fullName}}</h1>
+      <div ui-grid="profile.applicationOptions" ui-grid-edit
+        ui-grid-row-edit ui-grid-auto-resize />
+      <div ui-grid="profile.classOptions" ui-grid-edit
+        ui-grid-row-edit ui-grid-auto-resize  />
+    </div>
+   
+  </div>
 </div>
-
 <footer class="footer">
   <div class="container">
       <p>Angular Fullstack v2.0.13 |

@@ -5,10 +5,9 @@ angular.module('profileKingApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.bootstrap',
-  'ui.grid',
-  'ui.grid.autoResize',
-  'ui.grid.edit'
+  'ngMaterial',
+  'ngLodash',
+  'md.data.table'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider

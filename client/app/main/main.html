@@ -1,43 +1,80 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<div layout="row" flex>
+    <md-sidenav flex="33" layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
+    <md-content  role="navigation" class="md-default-theme">
+    <ul>
+        <li class="parent-list-item">
+            <h2 class="menu-heading md-subhead">
+            Actions
+            </h2>
+        </li>
+        <li>
+           
+            <md-button ng-click="addOrg()">Add Org</md-button>
+        </li>
+        <li>
+            <md-button ng-click="logOrg()">Log Orgs</md-button>
+        </li>
 
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>Profile King</h1>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
-  </div>
-</header>
-<style>
+        <li class="parent-list-item">
+            <h2 class="menu-heading md-subhead">
+              Orgs
+            </h2>
+            <ul>
+                <li ng-repeat="org in orgs">
+                    <md-button ng-click="toggle(org)">
+                      <div style="float: left">
+                          {{org.name}}
+                      </div>
+                      <div style="float: left" ng-show="org.busy">
+                          <md-progress-circular md-diameter="24" md-mode="indeterminate" ></md-progress-circular>
+                      </div>
+                    </md-button>
+                    <ul>
+                        <li ng-repeat="prof in org.profiles() | orderBy : 'fullName'">
+                            <md-button ng-click="setProfile(org, prof, 'lhs')"> 
+                              <div style="float: left">
+                                  {{prof.fullName}}
+                              </div>
+                              <div style="float: left" ng-show="prof.busy">
+                                  <md-progress-circular md-diameter="24" md-mode="indeterminate" ></md-progress-circular>
+                              </div>
+                            </md-button>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    </md-content>
+    </md-sidenav>
+    <div layout="row">
+      <div flex="50">
+          <div layout="column" ng-show="comparator.lhs.profile">
+            <h2>{{comparator.lhs.profile.fullName}}</h2>
 
-</style>
-<div class="container">
-  <div class="row" >
-    <div class="col-lg-12">
-      <a href="#" ng-click="addOrg()">Add Org</a>
-      <a href="#" ng-click="query()">Query</a>
+            <default-setting titile="App Visibility" ng-model="comparator.lhs.profile.applicationVisibilities" options="options.applicationVisibility"></default-setting>
+            <boolean-setting title="Apex Class" ng-model="comparator.lhs.profile.classAccesses" options="options.apexClass"></boolean-setting>
+            <field-permissions ng-model="comparator.lhs.profile.fieldPermissions"></field-permissions>
+            <boolean-setting title="Visualforce Page" ng-model="comparator.lhs.profile.pageAccesses" options="options.pageAccess"></boolean-setting>
+            <boolean-setting title="User Permission" ng-model="comparator.lhs.profile.userPermissions" options="options.userPermission"></boolean-setting>
+            <default-setting titile="Record Type Visibility" ng-model="comparator.lhs.profile.recordTypeVisibilities" options="options.recordTypeVisibility"></default-setting>
+
+            
+           
+          </div>
+      </div>
+      <div flex="50">
+          <div layout="column" ng-show="comparator.rhs.profile">
+            <h2>{{comparator.rhs.profile.fullName}}</h2>
+
+            <default-setting titile="App Visibility" ng-model="comparator.rhs.profile.applicationVisibilities" options="options.applicationVisibility"></default-setting>
+            <boolean-setting title="Apex Class" ng-model="comparator.rhs.profile.classAccesses" options="options.apexClass"></boolean-setting>
+            <field-permissions ng-model="comparator.rhs.profile.fieldPermissions"></field-permissions>
+            <boolean-setting title="Visualforce Page" ng-model="comparator.rhs.profile.pageAccesses" options="options.pageAccess"></boolean-setting>
+            <boolean-setting title="User Permission" ng-model="comparator.lhs.profile.userPermissions" options="options.userPermission"></boolean-setting>
+            <default-setting titile="Record Type Visibility" ng-model="comparator.rhs.profile.recordTypeVisibilities" options="options.recordTypeVisibility"></default-setting>
+          </div>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <select ng-model="org" ng-options="org.identity().username for org in orgs">
-    </select>
-    <select ng-model="profile" ng-options="profile.fullName for profile in org.profiles()">
-    </select>
-    <button ng-show="org && profile" ng-click="addProfile(org, profile)">Add</button>
-  </div>
-  <div class="row" ng-repeat="profile in profiles">
-    <div class="col-md-6">
-      <h1>{{profile.fullName}}</h1>
-      <div ui-grid="profile.applicationOptions" ui-grid-edit
-        ui-grid-row-edit ui-grid-auto-resize />
-      <div ui-grid="profile.classOptions" ui-grid-edit
-        ui-grid-row-edit ui-grid-auto-resize  />
-    </div>
-   
-  </div>
 </div>
-<footer class="footer">
-  <div class="container">
-      <p>Angular Fullstack v2.0.13 |
-        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
-  </div>
-</footer>

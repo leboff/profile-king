@@ -1,0 +1,45 @@
+<md-data-table-toolbar>
+  <h2 class="md-title">{{title}}</h2>
+</md-data-table-toolbar>
+<md-data-table-container>
+<md-radio-group ng-model="defaultValue">
+  <table md-data-table>
+    <thead md-order="order">
+      <tr>
+        <th ng-if="options.defaultField" order-by="{{options.defaultField.field}}">{{options.defaultField.label}}</th>
+        <th order-by="{{options.setting.field}}">{{options.setting.label}}</th>
+        <th ng-if="options.create" order-by="{{options.create.field}}">{{options.create.label}}</th>
+        <th ng-if="options.read" order-by="{{options.read.field}}">{{options.read.label}}</th>
+        <th ng-if="options.edit" order-by="{{options.edit.field}}">{{options.edit.label}}</th>
+        <th ng-if="options.del" order-by="{{options.del.field}}">{{options.delete.label}}</th>
+        <th ng-if="options.select" order-by="{{options.select.field}}">{{options.delete.label}}</th>
+      </tr>
+    </thead>
+    <tbody>
+		<tr ng-click="logMe(row)" ng-repeat="row in ngModel | orderBy : order" >
+		<td ng-if="options.defaultField" ng-class="{'md-cell-edited': row[options.create.field+'_edited'], 'md-cell-deleted': row[options.create.field+'_deleted'], 'md-cell-added': row[options.create.field+'_added'] }">
+	    	<md-radio-button ng-value="row[options.setting.field]" class="md-primary"></md-radio-button>
+	    </td>
+        <td>{{row[options.setting.field]}}</td>
+        <td ng-if="options.create" ng-class="{'md-cell-edited': row[options.create.field+'_edited'], 'md-cell-deleted': row[options.create.field+'_deleted'], 'md-cell-added': row[options.create.field+'_added'] }">
+          <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="create" ng-model="row[options.create.field]"/>
+        </td>
+        <td ng-if="options.read" ng-class="{'md-cell-edited': row[options.read.field+'_edited'], 'md-cell-deleted': row[options.read.field+'_deleted'], 'md-cell-added': row[options.read.field+'_added'] }">
+          <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="read" ng-model="row[options.read.field]"/>
+        </td>
+        <td ng-if="options.edit" ng-class="{'md-cell-edited': row[options.edit.field+'_edited'], 'md-cell-deleted': row[options.edit.field+'_deleted'], 'md-cell-added': row[options.edit.field+'_added'] }">
+          <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="edit" ng-model="row[options.edit.field]"/>
+        </td>
+        <td ng-if="options.del" ng-class="{'md-cell-edited': row[options.del.field+'_edited'], 'md-cell-deleted': row[options.del.field+'_deleted'], 'md-cell-added': row[options.del.field+'_added'] }">
+          <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="delete" ng-model="row[options.del.field]"/>
+        </td>
+        <td ng-if="options.select" ng-class="{'md-cell-edited': row[options.select.field+'_edited'], 'md-cell-deleted': row[options.select.field+'_deleted'], 'md-cell-added': row[options.select.field+'_added'] }">
+          <md-select placeholder="options.select.label" ng-model="row[options.select.field]">
+            <md-option ng-repeat="value in options.select.values" value="{{value}}">{{value}}</md-option>
+          </md-select>
+        </td>
+      	</tr>
+    </tbody>
+  </table>
+</md-data-table-container>
+</md-radio-group>

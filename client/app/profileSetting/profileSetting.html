@@ -1,0 +1,51 @@
+<div layout="row">
+<div ng-repeat="(key, profile) in profiles">
+<div flex="50">
+<md-data-table-toolbar>
+  <h2 ng-click="show = !show" class="md-title">{{profs[key].fullName}}</h2>
+</md-data-table-toolbar> 
+<md-data-table-container>
+<md-radio-group ng-model="defaultValue">
+  <table md-data-table>
+    <thead>
+      <tr>
+        <th ng-if="opts.defaultField">{{opts.defaultField.label}}</th>
+        <th ng-if="$first">{{opts.setting.label}}</th>
+        <th ng-if="opts.create" >{{opts.create.label}}</th>
+        <th ng-if="opts.read" >{{opts.read.label}}</th>
+        <th ng-if="opts.edit" >{{opts.edit.label}}</th>
+        <th ng-if="opts.del" >{{opts.delete.label}}</th>
+        <th ng-if="opts.select" >{{opts.delete.label}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-click="logMe(name)" ng-repeat="name in names" ng-class="{'md-row-deleted': profile[name].$diff.missing}">
+        <td ng-if="opts.defaultField">
+          <md-radio-button ng-disabled="profile[name].$diff.missing" ng-value="profile[name]" class="md-primary"></md-radio-button>
+        </td>
+        <td ng-if="$parent.$first">{{name}}</td>
+        <td ng-if="opts.create" ng-class="{'md-cell-edited': profile[name].$diff.create.modified}" >
+          <md-switch  ng-disabled="profile[name].$diff.missing" class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="create" ng-model="profile[name][opts.create.field]"></md-switch>
+        </td>
+        <td ng-if="opts.read" ng-class="{'md-cell-edited': profile[name].$diff.read.modified}" >
+          <md-switch ng-disabled="profile[name].$diff.missing" class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="read" ng-model="profile[name][opts.read.field]"></md-switch>
+        </td>
+        <td ng-if="opts.edit" ng-class="{'md-cell-edited': profile[name].$diff.edit.modified}" >
+          <md-switch ng-disabled="profile[name].$diff.missing" class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="edit" ng-model="profile[name][opts.edit.field]"></md-switch>
+        </td>
+        <td ng-if="opts.del" ng-class="{'md-cell-edited': profile[name].$diff.del.modified}" >
+          <md-switch ng-disabled="profile[name].$diff.missing" class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="delete" ng-model="profile[name][opts.del.field]"></md-switch>
+        </td>
+        <td ng-if="opts.select" ng-class="{'md-cell-edited': profile[name].$diff.select.modified}" >
+          <md-select ng-disabled="profile[name].$diff.missing" placeholder="opts.select.label" ng-model="profile[name][opts.select.field]">
+            <md-option ng-repeat="value in opts.select.values" value="{{value}}">{{value}}</md-option>
+          </md-select>
+        </td>
+        </tr>
+    </tbody>
+  </table>
+</md-radio-group> 
+</md-data-table-container>
+</div>
+</div>
+</div>

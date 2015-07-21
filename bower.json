@@ -21,7 +21,10 @@
     "bootstrap": "~3.3.5",
     "ng-lodash": "~0.2.3",
     "angular-smart-table": "~2.1.1",
-    "angular-material-data-table": "*"
+    "angular-material-data-table": "*",
+    "deep-diff": "~0.3.2",
+    "lokijs": "~1.3.7",
+    "animate.css": "~3.3.0"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

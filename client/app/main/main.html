@@ -22,59 +22,30 @@
             </h2>
             <ul>
                 <li ng-repeat="org in orgs">
-                    <md-button ng-click="toggle(org)">
-                      <div style="float: left">
-                          {{org.name}}
-                      </div>
-                      <div style="float: left" ng-show="org.busy">
-                          <md-progress-circular md-diameter="24" md-mode="indeterminate" ></md-progress-circular>
-                      </div>
-                    </md-button>
-                    <ul>
-                        <li ng-repeat="prof in org.profiles() | orderBy : 'fullName'">
-                            <md-button ng-click="setProfile(org, prof, 'lhs')"> 
-                              <div style="float: left">
-                                  {{prof.fullName}}
-                              </div>
-                              <div style="float: left" ng-show="prof.busy">
-                                  <md-progress-circular md-diameter="24" md-mode="indeterminate" ></md-progress-circular>
-                              </div>
-                            </md-button>
-                        </li>
-                    </ul>
+                  <div layout="row">
+                      <md-button ng-click="show = !show">
+                        {{org.name}}
+                      </md-button>
+                      <md-progress-circular ng-show="org.busy" md-diameter="24" md-mode="indeterminate" ></md-progress-circular>
+
+                    </div>
+                      <ul class="setting-group" ng-show="show">
+                          <li ng-repeat="prof in org.profiles() | orderBy : 'fullName'" >
+                              <md-button ng-click="setProfile(org, prof, 'lhs')"> 
+                                <div style="float: left">
+                                    {{prof.fullName}}
+                                </div>
+                                <div style="float: left" ng-show="prof.busy">
+                                    <md-progress-circular md-diameter="24" md-mode="indeterminate" ></md-progress-circular>
+                                </div>
+                              </md-button>
+                          </li>
+                      </ul>
                 </li>
             </ul>
         </li>
     </ul>
     </md-content>
     </md-sidenav>
-    <div layout="row">
-      <div flex="50">
-          <div layout="column" ng-show="comparator.lhs.profile">
-            <h2>{{comparator.lhs.profile.fullName}}</h2>
-
-            <default-setting titile="App Visibility" ng-model="comparator.lhs.profile.applicationVisibilities" options="options.applicationVisibility"></default-setting>
-            <boolean-setting title="Apex Class" ng-model="comparator.lhs.profile.classAccesses" options="options.apexClass"></boolean-setting>
-            <field-permissions ng-model="comparator.lhs.profile.fieldPermissions"></field-permissions>
-            <boolean-setting title="Visualforce Page" ng-model="comparator.lhs.profile.pageAccesses" options="options.pageAccess"></boolean-setting>
-            <boolean-setting title="User Permission" ng-model="comparator.lhs.profile.userPermissions" options="options.userPermission"></boolean-setting>
-            <default-setting titile="Record Type Visibility" ng-model="comparator.lhs.profile.recordTypeVisibilities" options="options.recordTypeVisibility"></default-setting>
-
-            
-           
-          </div>
-      </div>
-      <div flex="50">
-          <div layout="column" ng-show="comparator.rhs.profile">
-            <h2>{{comparator.rhs.profile.fullName}}</h2>
-
-            <default-setting titile="App Visibility" ng-model="comparator.rhs.profile.applicationVisibilities" options="options.applicationVisibility"></default-setting>
-            <boolean-setting title="Apex Class" ng-model="comparator.rhs.profile.classAccesses" options="options.apexClass"></boolean-setting>
-            <field-permissions ng-model="comparator.rhs.profile.fieldPermissions"></field-permissions>
-            <boolean-setting title="Visualforce Page" ng-model="comparator.rhs.profile.pageAccesses" options="options.pageAccess"></boolean-setting>
-            <boolean-setting title="User Permission" ng-model="comparator.lhs.profile.userPermissions" options="options.userPermission"></boolean-setting>
-            <default-setting titile="Record Type Visibility" ng-model="comparator.rhs.profile.recordTypeVisibilities" options="options.recordTypeVisibility"></default-setting>
-          </div>
-      </div>
-    </div>
+    <profile-diff class="full" profiles="profiles"> </profile-diff>
 </div>

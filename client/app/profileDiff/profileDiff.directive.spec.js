@@ -1,10 +1,10 @@
 'use strict';
 
-describe('Directive: booleanSetting', function () {
+describe('Directive: profileDiff', function () {
 
   // load the directive's module and view
   beforeEach(module('profileKingApp'));
-  beforeEach(module('app/profileItems/booleanSetting/booleanSetting.html'));
+  beforeEach(module('app/profileDiff/profileDiff.html'));
 
   var element, scope;
 
@@ -13,9 +13,9 @@ describe('Directive: booleanSetting', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<boolean-setting></boolean-setting>');
+    element = angular.element('<profile-diff></profile-diff>');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(element.text()).toBe('this is the booleanSetting directive');
+    expect(element.text()).toBe('this is the profileDiff directive');
   }));
 });

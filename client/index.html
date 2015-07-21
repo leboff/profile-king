@@ -17,6 +17,7 @@
       <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
       <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
       <link rel="stylesheet" href="bower_components/angular-material-data-table/dist/md-data-table.min.css" />
+      <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -25,11 +26,9 @@
       <link rel="stylesheet" href="app/app.css">
       <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="app/orgList/orgList.css">
-      <link rel="stylesheet" href="app/profileItems/applicationVisibilities/applicationVisibilities.css">
-      <link rel="stylesheet" href="app/profileItems/booleanSetting/booleanSetting.css">
-      <link rel="stylesheet" href="app/profileItems/classAccesses/classAccesses.css">
-      <link rel="stylesheet" href="app/profileItems/defaultSetting/defaultSetting.css">
-      <link rel="stylesheet" href="app/profileItems/fieldPermissions/fieldPermissions.css">
+      <link rel="stylesheet" href="app/profileDiff/profileDiff.css">
+      <link rel="stylesheet" href="app/profileSetting/profileSetting.css">
+      <link rel="stylesheet" href="app/settingDiff/settingDiff.css">
       <link rel="stylesheet" href="components/modal/modal.css">
       <!-- endinjector -->
     <!-- endbuild -->
@@ -78,23 +77,26 @@
       <script src="bower_components/ng-lodash/build/ng-lodash.js"></script>
       <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
       <script src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
+      <script src="bower_components/deep-diff/index.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
+      <script src="bower_components/lokijs/build/lokijs.min.js"></script>
+      <script src="bower_components/lokijs/src/loki-angular.js"></script>
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
+          <script src="app/diff/diff.service.js"></script>
+          <script src="app/lokidb/lokidb.service.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
           <script src="app/ngForce/ngForce.service.js"></script>
           <script src="app/org/org.controller.js"></script>
           <script src="app/orgList/orgList.directive.js"></script>
           <script src="app/profile/profile.controller.js"></script>
-          <script src="app/profileItems/applicationVisibilities/applicationVisibilities.directive.js"></script>
-          <script src="app/profileItems/booleanSetting/booleanSetting.directive.js"></script>
-          <script src="app/profileItems/classAccesses/classAccesses.directive.js"></script>
-          <script src="app/profileItems/defaultSetting/defaultSetting.directive.js"></script>
-          <script src="app/profileItems/fieldPermissions/fieldPermissions.directive.js"></script>
+          <script src="app/profileDiff/profileDiff.directive.js"></script>
+          <script src="app/profileSetting/profileSetting.directive.js"></script>
+          <script src="app/settingDiff/settingDiff.directive.js"></script>
           <script src="components/modal/modal.service.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <!-- endinjector -->

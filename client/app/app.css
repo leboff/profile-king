@@ -30,10 +30,38 @@
 /**
  * App-wide Styles
  */
-
+.full{
+    width:100%;
+}
+.dropdown{
+    cursor: pointer;
+}
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
     color: #000;
     padding: 0.2em 0;
+}
+table[md-data-table]>tbody>tr.md-row-deleted{
+    background-color: #FFCDD2;
+}
+table[md-data-table]>tbody>tr>td.md-cell-deleted{
+    background-color: #FFCDD2;
+}
+table[md-data-table]>tbody>tr>td.md-cell-edited{
+    background-color: #FFF9C4;
+}
+table[md-data-table]>tbody>tr>td.md-cell-added{
+    background-color: #C8E6C9;
+}
+
+//animations
+.setting-group{
+    height: 1px;
+}
+.setting-group.ng-enter, .setting-group.ng-hide-add{
+    animation: slideInDown 1s;
+}
+.setting-group.ng-leave, .setting-group.ng-hideremove{
+    animation: slideOutUp 1s;
 }

@@ -1,10 +1,10 @@
 'use strict';
 
-describe('Directive: fieldPermissions', function () {
+describe('Directive: settingDiff', function () {
 
   // load the directive's module and view
   beforeEach(module('profileKingApp'));
-  beforeEach(module('app/fieldPermissions/fieldPermissions/fieldPermissions.html'));
+  beforeEach(module('app/settingDiff/settingDiff.html'));
 
   var element, scope;
 
@@ -13,9 +13,9 @@ describe('Directive: fieldPermissions', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<field-permissions></field-permissions>');
+    element = angular.element('<setting-diff></setting-diff>');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(element.text()).toBe('this is the fieldPermissions directive');
+    expect(element.text()).toBe('this is the settingDiff directive');
   }));
 });

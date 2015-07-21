@@ -7,7 +7,9 @@ angular.module('profileKingApp', [
   'ngRoute',
   'ngMaterial',
   'ngLodash',
-  'md.data.table'
+  'ngAnimate',
+  'md.data.table',
+  'lokijs'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider

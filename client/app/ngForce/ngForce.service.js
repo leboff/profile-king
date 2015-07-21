@@ -92,7 +92,6 @@ angular.module('profileKingApp')
       return $q(function(resolve, reject){
         if(client.isLoggedIn()){
           identify().then(function(){
-            console.log('sending back my love');
             resolve(ngClient);
           });
         }

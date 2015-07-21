@@ -24,7 +24,7 @@
                 <li ng-repeat="org in orgs">
                   <div layout="row">
                       <md-button ng-click="show = !show">
-                        {{org.name}}
+                        {{org.full_identity.username}}
                       </md-button>
                       <md-progress-circular ng-show="org.busy" md-diameter="24" md-mode="indeterminate" ></md-progress-circular>
 

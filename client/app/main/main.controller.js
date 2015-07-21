@@ -70,7 +70,8 @@ angular.module('profileKingApp')
             
             if(org.isLoggedIn()){
                 org.busy = true
-                org.getProfiles().then(function(){
+                org.identify().then(org.getProfiles).then(function(){
+                    org.full_identity = org.identity();
                     org.busy = false;
                 });
                 lokidb.insert('orgs', org);

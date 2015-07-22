@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: lokidb', function () {
+describe('Service: profiles', function () {
 
   // load the service's module
   beforeEach(module('profileKingApp'));
 
   // instantiate service
-  var lokidb;
-  beforeEach(inject(function (_lokidb_) {
-    lokidb = _lokidb_;
+  var profiles;
+  beforeEach(inject(function (_profiles_) {
+    profiles = _profiles_;
   }));
 
   it('should do something', function () {
-    expect(!!lokidb).toBe(true);
+    expect(!!profiles).toBe(true);
   });
 
 });

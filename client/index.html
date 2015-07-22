@@ -25,8 +25,6 @@
       <!-- injector:css -->
       <link rel="stylesheet" href="app/app.css">
       <link rel="stylesheet" href="app/main/main.css">
-      <link rel="stylesheet" href="app/profileDiff/profileDiff.css">
-      <link rel="stylesheet" href="app/profileSetting/profileSetting.css">
       <link rel="stylesheet" href="components/modal/modal.css">
       <!-- endinjector -->
     <!-- endbuild -->
@@ -76,6 +74,7 @@
       <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
       <script src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
       <script src="bower_components/deep-diff/index.js"></script>
+      <script src="bower_components/angular-base64/angular-base64.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
       <script src="bower_components/lokijs/build/lokijs.min.js"></script>
@@ -84,12 +83,13 @@
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
-          <script src="app/lokidb/lokidb.service.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
           <script src="app/ngForce/ngForce.service.js"></script>
-          <script src="app/profileDiff/profileDiff.directive.js"></script>
-          <script src="app/profileSetting/profileSetting.directive.js"></script>
+          <script src="app/orgs/orgs.service.js"></script>
+          <script src="app/profileList/profileList.service.js"></script>
+          <script src="app/profileTable/profileTable.controller.js"></script>
+          <script src="app/profiles/profiles.service.js"></script>
           <script src="components/modal/modal.service.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <!-- endinjector -->

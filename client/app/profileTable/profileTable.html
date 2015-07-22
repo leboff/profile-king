@@ -1,0 +1,90 @@
+<div layout="column" layout-fill ng-controller="ProfileTableCtrl">
+    <div ng-repeat="(t, settings) in profiles.getSettings()">
+        <md-toolbar layout="row">
+        <div class="md-toolbar-tools">
+            <md-button ng-click="show[t] = !show[t]">
+            {{opts[t].title}}
+            </md-button>
+            <span flex=""></span>
+            <!-- <md-progress-circular class="md-accent" md-diameter="24" md-mode="indeterminate"></md-progress-circular> -->
+            <md-button ng-click="profiles.sync()" class="md-icon-button">
+            <md-icon md-svg-icon="bower_components/material-design-icons/notification/svg/production/ic_sync_48px.svg" style="color: greenyellow;"></md-icon>
+            </md-button>
+            <md-button aria-label="Show" ng-click="showProfiles()">
+            <md-icon md-svg-icon="bower_components/material-design-icons/navigation/svg/production/ic_expand_more_48px.svg"></md-icon>
+            <md-icon md-svg-icon="bower_components/material-design-icons/navigation/svg/production/ic_expand_less_48px.svg"></md-icon>
+            </md-button>
+        </div>
+        </md-toolbar>
+        <div layout="row" ng-if="show[t]">
+            <div ng-repeat="(key, profile) in profiles.getProfiles()">
+                <div flex="50">
+                    <md-toolbar layout="row">
+                    <div class="md-toolbar-tools">
+                        <h3>
+                        {{profile.fullName}}
+                        </h3>
+                        <span flex=""></span>
+                        <md-button ng-click="download(key)" class="md-icon-button">
+                            <md-icon md-svg-icon="bower_components/material-design-icons/file/svg/production/ic_file_download_48px.svg" style="color: {{dcolor}};"></md-icon>
+                        </md-button>
+                        <a ng-href="{{profileData}}" target="_blank" download="{{profile.fullName}}.xml" ng-show="dcolor == 'greenyellow'">Download</a>
+
+                    </div>
+                    </md-toolbar>
+                    <md-data-table-toolbar>
+                    <h2 class="md-title"></h2>
+                    </md-data-table-toolbar>
+                    <md-data-table-container>
+                    <md-radio-group ng-model="defaultValue">
+                    <table md-data-table>
+                        <thead>
+                            <tr>
+                                <th ng-if="opts[t].defaultField">{{opts[t].defaultField.label}}</th>
+                                <th ng-if="$first">{{opts[t].setting.label}}</th>
+                                <th ng-if="opts[t].create" >{{opts[t].create.label}}</th>
+                                <th ng-if="opts[t].read" >{{opts[t].read.label}}</th>
+                                <th ng-if="opts[t].edit" >{{opts[t].edit.label}}</th>
+                                <th ng-if="opts[t].del" >{{opts[t].delete.label}}</th>
+                                <th ng-if="opts[t].select" >{{opts[t].delete.label}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="(name, setting) in profiles.getSettings()[t]" ng-class="{'md-row-deleted': setting[key].$diff.missing}">
+                                <td ng-if="opts[t].defaultField">
+                                    <md-radio-button ng-disabled="setting[key].$diff.missing" ng-value="setting[key]" class="md-primary"></md-radio-button>
+                                </td>
+                                <td ng-if="$parent.$first">{{name}}</td>
+                                <td ng-if="opts[t].create" ng-class="{'md-cell-edited': setting[key].$diff.create.modified}" >
+                                    <md-switch ng-change="profiles.setDiff(t, setting[key])" ng-disabled="setting[key].$diff.missing" class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="create" ng-model="setting[key][opts[t].create.field]"></md-switch>
+                                </td>
+                                <td ng-if="opts[t].read" ng-class="{'md-cell-edited': setting[key].$diff.read.modified}" >
+                                    <md-switch ng-change="profiles.setDiff(t, setting[key])" ng-disabled="setting[key].$diff.missing" class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="read" ng-model="setting[key][opts[t].read.field]"></md-switch>
+                                </td>
+                                <td ng-if="opts[t].edit" ng-class="{'md-cell-edited': setting[key].$diff.edit.modified}" >
+                                    <md-switch ng-change="profiles.setDiff(t, setting[key])" ng-disabled="setting[key].$diff.missing" class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="edit" ng-model="setting[key][opts[t].edit.field]"></md-switch>
+                                </td>
+                                <td ng-if="opts[t].del" ng-class="{'md-cell-edited': setting[key].$diff.del.modified}" >
+                                    <md-switch ng-change="profiles.setDiff(t, setting[key])" ng-disabled="setting[key].$diff.missing" class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="delete" ng-model="setting[key][opts[t].del.field]"></md-switch>
+                                </td>
+                                <td ng-if="opts[t].select" ng-class="{'md-cell-edited': setting[key].$diff.select.modified}" >
+                                    <md-select ng-disabled="setting[key].$diff.missing" placeholder="{{opts[t].select.label}}" ng-model="setting[key][opts[t].select.field]">
+                                    	<md-option ng-repeat="value in opts.select.values" value="{{value}}">{{value}}</md-option>
+                                    </md-select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </md-radio-group>
+                    </md-data-table-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+
+        </div>
+    </div>
+</div>
+-->

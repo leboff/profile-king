@@ -24,7 +24,8 @@
     "angular-material-data-table": "*",
     "deep-diff": "~0.3.2",
     "lokijs": "~1.3.7",
-    "animate.css": "~3.3.0"
+    "animate.css": "~3.3.0",
+    "angular-base64": "~2.0.5"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

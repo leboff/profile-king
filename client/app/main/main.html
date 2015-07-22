@@ -1,51 +1,41 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div layout="row" flex>
     <md-sidenav flex="33" layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
-    <md-content  role="navigation" class="md-default-theme">
-    <ul>
-        <li class="parent-list-item">
-            <h2 class="menu-heading md-subhead">
-            Actions
-            </h2>
-        </li>
-        <li>
-           
-            <md-button ng-click="addOrg()">Add Org</md-button>
-        </li>
-        <li>
-            <md-button ng-click="logOrg()">Log Orgs</md-button>
-        </li>
+      <md-content  role="navigation" class="md-default-theme">
+      <ul>
+          <li class="parent-list-item">
+              <h2 class="menu-heading md-subhead">
+              Actions
+              </h2>
+          </li>
+          <li>
+             
+              <md-button ng-click="addOrg()">Add Org</md-button>
+          </li>
+          <li>
+              <md-button ng-click="logOrg()">Log Orgs</md-button>
+          </li>
 
-        <li class="parent-list-item">
-            <h2 class="menu-heading md-subhead">
-              Orgs
-            </h2>
-            <ul>
-                <li ng-repeat="org in orgs">
-                  <div layout="row">
-                      <md-button ng-click="show = !show">
-                        {{org.full_identity.username}}
-                      </md-button>
-                      <md-progress-circular ng-show="org.busy" md-diameter="24" md-mode="indeterminate" ></md-progress-circular>
-
-                    </div>
-                      <ul class="setting-group" ng-show="show">
-                          <li ng-repeat="prof in org.profiles() | orderBy : 'fullName'" >
-                              <md-button ng-click="setProfile(org, prof, 'lhs')"> 
-                                <div style="float: left">
-                                    {{prof.fullName}}
-                                </div>
-                                <div style="float: left" ng-show="prof.busy">
-                                    <md-progress-circular md-diameter="24" md-mode="indeterminate" ></md-progress-circular>
-                                </div>
-                              </md-button>
-                          </li>
-                      </ul>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    </md-content>
+          <li class="parent-list-item">
+              <h2 class="menu-heading md-subhead">
+                Orgs
+              </h2>
+              <ul>
+                  <li ng-repeat="org in orgs">
+                    <md-button ng-click="org.profiles.list()">{{org.identity.username}}</md-button>
+                    <ul>
+                      <li ng-repeat="profile in org.profiles">
+                        <md-button ng-click="profile.get()">
+                          {{profile.fullName}}
+                        </md-button>
+                      </li>
+                    </ul>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+      </md-content>
     </md-sidenav>
-    <profile-diff class="full" profiles="profiles"> </profile-diff>
+
+  <div ng-include="'app/profileTable/profileTable.html'" flex=""></div>
 </div>

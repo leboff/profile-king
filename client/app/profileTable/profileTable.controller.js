@@ -13,7 +13,7 @@ angular.module('profileKingApp')
 
     $scope.download = function(key){
     	var profile = profileList.get(key);
-    	$http.post('/api/exports', {Profile: {'@xmlns': 'test', profile} })
+    	$http.post('/api/exports', profile })
     		.success(function(data, status, headers){
     			//var blob = new Blob([ data ], { type : 'text/xml' });
     			//$scope.profileData = (window.URL || window.webkitURL).createObjectURL( blob );

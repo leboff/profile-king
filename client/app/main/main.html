@@ -1,6 +1,6 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div layout="row" flex>
-    <md-sidenav flex="33" layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
+    <md-sidenav flex="20" layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
       <md-content  role="navigation" class="md-default-theme">
       <ul>
           <li class="parent-list-item">
@@ -9,7 +9,7 @@
               </h2>
           </li>
           <li>
-             
+
               <md-button ng-click="addOrg()">Add Org</md-button>
           </li>
           <li>
@@ -21,10 +21,10 @@
                 Orgs
               </h2>
               <ul>
-                  <li ng-repeat="org in orgs">
+                  <li ng-repeat="org in orgs | orderBy : 'identity.username'">
                     <md-button ng-click="org.profiles.list()">{{org.identity.username}}</md-button>
                     <ul>
-                      <li ng-repeat="profile in org.profiles">
+                      <li ng-repeat="profile in org.profiles | orderBy : 'fullName'">
                         <md-button ng-click="profile.get()">
                           {{profile.fullName}}
                         </md-button>

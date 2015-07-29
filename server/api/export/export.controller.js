@@ -8,15 +8,48 @@ var fs = require('fs');
 exports.index = function(req, res) {
   res.json([]);
 };
+var spacer = '    ';
+//var spaces = 0;
+var toXML = function(name, value, spcs) {
+  var spaces = spcs || '';
+  var isObject, isString;
+  if (_.isObject(name)) {
+    value = name;
+    name = null;
+  }
+  if (_.isArray(value)) {
+    return _.map(value, function(v) { return toXML(name, v, spaces+spacer); }).join('') ;
+  } else {
+    var attrs = [];
+    var elems = [];
+    if (_.isObject(value)) {
+      isObject = true;
+      for (var k in value) {
+        var v = value[k];
+        if (k[0] === '@') {
+          k = k.substring(1);
+          attrs.push(k + '="' + v + '"');
+        } else {
+          elems.push(toXML(k, v, spaces));
+        }
+      }
+      value = elems.join('') + '\n';
+    } else {
+      isString = true;
+      value = String(value);
+    }
 
+    var startTag = name ? spaces+ '<' + name + (attrs.length > 0 ? ' ' + attrs.join(' ') : '') + '>' : '';
+    var endTag = name ? '</' + name + '>' : '';
+    var startTag = '\n'+ (isString ? spaces+startTag :  startTag);
+    var endTag = isObject ? spaces+endTag : endTag;
+    //spaces = spaces.substring(2);
+    return  startTag + value + endTag;
+  }
+}
 exports.download = function(req, res){
+    var xml = toXML(req.body);
 
-	var builder = new xml2js.Builder({
-		rootName: 'Profile xmlns="http://soap.sforce.com/2006/04/metadata"'
-	});
-
-
-	var xml = builder.buildObject(req.body);
 	res.setHeader('Content-disposition', 'attachment; filename=profile.xml');
 	res.setHeader('Content-type', 'text/xml');
 

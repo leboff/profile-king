@@ -13,13 +13,13 @@ angular.module('profileKingApp')
 
     $scope.download = function(key){
     	var profile = profileList.get(key);
-    	$http.post('/api/exports', profile })
+        profile['@xmlns'] = 'http://soap.sforce.com/2006/04/metadata';
+
+   	    $http.post('/api/exports', {Profile: profile})
     		.success(function(data, status, headers){
-    			//var blob = new Blob([ data ], { type : 'text/xml' });
-    			//$scope.profileData = (window.URL || window.webkitURL).createObjectURL( blob );
     		    $scope.profileData = 'data:text/xml;base64,'+$base64.encode(data);
     			$scope.dcolor = 'greenyellow';
     		});
-    	
+
     }
   });

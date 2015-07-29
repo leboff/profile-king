@@ -50,7 +50,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="(name, setting) in profiles.getSettings()[t]" ng-class="{'md-row-deleted': setting[key].$diff.missing}">
+                            <tr ng-repeat="(name, setting) in profiles.getSettings()[t] | orderBy : 'name'" ng-class="{'md-row-deleted': setting[key].$diff.missing}">
                                 <td ng-if="opts[t].defaultField">
                                     <md-radio-button ng-disabled="setting[key].$diff.missing" ng-value="setting[key]" class="md-primary"></md-radio-button>
                                 </td>
@@ -69,7 +69,7 @@
                                 </td>
                                 <td ng-if="opts[t].select" ng-class="{'md-cell-edited': setting[key].$diff.select.modified}" >
                                     <md-select ng-disabled="setting[key].$diff.missing" placeholder="{{opts[t].select.label}}" ng-model="setting[key][opts[t].select.field]">
-                                    	<md-option ng-repeat="value in opts.select.values" value="{{value}}">{{value}}</md-option>
+                                    	<md-option ng-repeat="value in opts[t].select.values" value="{{value}}">{{value}}</md-option>
                                     </md-select>
                                 </td>
                             </tr>

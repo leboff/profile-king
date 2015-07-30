@@ -9,7 +9,10 @@ angular.module('profileKingApp', [
   'ngLodash',
   'ngAnimate',
   'md.data.table',
-  'base64'
+  'base64', 
+  'flow', 
+  'filereader',
+  'xml2js'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider

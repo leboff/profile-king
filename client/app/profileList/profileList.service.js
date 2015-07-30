@@ -71,7 +71,6 @@ angular.module('profileKingApp')
         });
       }
     }
-
     this.add = function(profile){
   		if(_.isEmpty(_profiles)) _origin = profile;
 

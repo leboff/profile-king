@@ -15,6 +15,11 @@
           <li>
               <md-button ng-click="logOrg()">Log Orgs</md-button>
           </li>
+          <li>
+              <div flow-init flow-file-added="profileAdded( $file, $event, $flow )">
+                <md-button flow-btn>Add Profile</md-button>
+              </div>
+          </li>
 
           <li class="parent-list-item">
               <h2 class="menu-heading md-subhead">
@@ -36,6 +41,5 @@
       </ul>
       </md-content>
     </md-sidenav>
-
   <div ng-include="'app/profileTable/profileTable.html'" flex=""></div>
 </div>

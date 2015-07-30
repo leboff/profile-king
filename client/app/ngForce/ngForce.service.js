@@ -11,6 +11,7 @@ angular.module('profileKingApp')
             loginUrl : 'https://test.salesforce.com',
             proxyUrl: '/proxy'
           });
+          console.log(client);
 
         return client;
 

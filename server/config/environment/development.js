@@ -7,5 +7,6 @@ module.exports = {
   mongo: {
     uri: 'mongodb://localhost/profileking-dev'
   },
-  seedDB: true
+  seedDB: true,
+  profilesDir: 'C:\\projects\\engage\\profiles'
 };

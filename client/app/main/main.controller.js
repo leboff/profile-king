@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('profileKingApp')
-  .controller('MainCtrl', function ($scope, $cookies, ngForce, orgs, profileList) {
+  .controller('MainCtrl', function ($scope, $cookies, ngForce, orgs, profile, profileList, FileReader) {
     $scope.orgs = [];
 
     $scope.profiles = profileList;
 
-    var cb = new ngForce();
+    var manual = orgs.get();
 
 
     var cookies = $cookies.getAll();
@@ -22,6 +22,14 @@ angular.module('profileKingApp')
           }
        }
     });
+
+    $scope.profileAdded = function(file, ev, flow){
+       
+        FileReader.readAsText(file.file, 'UTF-8', $scope)
+            .then(function(f){
+                var p = new profile(f);
+            });        
+    }
 
     $scope.addOrg = function(){
         // var org = orgs.get('jsforce3');
@@ -40,6 +48,7 @@ angular.module('profileKingApp')
         console.log($scope.profiles.getProfiles());
         console.log($scope.profiles.getSettings());
     }
+
 
   });
     // var force, _ = lodash;

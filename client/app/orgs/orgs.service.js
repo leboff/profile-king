@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('profileKingApp')
-  .service('orgs', function ($q, ngForce, profiles) {
+  .service('orgs', function ($q, ngForce, profile) {
 
     var org = function(prefix){
         var _self = this,
@@ -36,7 +36,19 @@ angular.module('profileKingApp')
             }
             return deferred.promise;
        }
-       this.profiles = new profiles(_client);
+       this.profiles = function(){
+            var _self = [];
+
+            _self.list = function(){
+                return $q.when(_client.connection.metadata.list([{type: 'Profile'}], function(err, res){
+                    _.each(res, function(prof){
+                        _self.push(new profile(_client, prof));
+                    });
+                }));
+            }
+
+            return _self;
+       }
 
     }
 

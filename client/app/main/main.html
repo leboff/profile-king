@@ -1,18 +1,15 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div layout="row" flex>
     <md-sidenav flex="20" layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
-      <md-content  role="navigation" class="md-default-theme">
-        <md-subheader ng-repeat="profile in profiles | orderBy:'fullName'">
-          <div layout="row">
-            <div>
-              {{profile.fullName}}
-            </div>
-            <span flex=""></span>
-            <md-button class="md-icon-button" aria-label="More" ng-click="export(profile)">
-              <md-icon md-svg-icon="bower_components\material-design-icons\file\svg\production\ic_file_download_24px.svg"></md-icon>
-            </md-button>
-            </div>
-        </md-subheader>
+      <md-content layout-padding="" class="md-default-theme" flex="">
+          <div layout="row" ng-repeat="profile in profiles | orderBy:'fullName'">
+              <div><h3>{{profile.fullName}}</h3></div>
+              <span flex=""></span>
+              <div> <a id="{{$index}}-export" ng-href="{{downloads[profile.fullName]}}" target="_blank" download="{{profile.fullName}}.xml" ng-show="downloads[profile.fullName]">Download</a></div>
+              <md-button class="md-icon-button" ng-class="dcolor" aria-label="More" ng-click="download(profile, $index)">
+                <md-icon md-svg-icon="bower_components\material-design-icons\file\svg\production\ic_file_download_24px.svg"></md-icon>
+              </md-button>
+          </div>
       </md-content>
     </md-sidenav>
   <div flex="">

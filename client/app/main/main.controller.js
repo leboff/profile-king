@@ -1,19 +1,32 @@
 'use strict';
 
 angular.module('profileKingApp')
-    .controller('MainCtrl', function ($scope, $cookies, lodash, profile, profileSettings) {
+    .controller('MainCtrl', function ($scope, $cookies, $http, $base64,$timeout, lodash, profile, profileSettings) {
         var _ = lodash;
         var profiles;
         $scope.permissions = {};
+        $scope.downloads = {};
         var settings = $scope.settings = profileSettings;
         profile.all().then(function(profs){
             profiles = profs;
-            console.log(profs);
             setProfiles(profs);
         });
 
         $scope.field = {};
+        $scope.download = function(profile, idx){
+            var prof = _.findWhere(profiles, {fullName: profile.fullName});
+            console.log(idx);
+            $http.post('/api/exports', {Profile: prof})
+                .success(function(data, status, headers){
+                    $scope.downloads[profile.fullName] = 'data:text/xml;base64,'+$base64.encode(data);
+                    $scope.dcolor = 'greenyellow';
+                     $timeout(function() {
+                        console.log( angular.element('#'+idx+'-export'));
+                        angular.element('#'+idx+'-export').click();
+                      }, 1000);
+                });
 
+        }
         $scope.remove = function(profile){
 
             // _.remove($scope.profiles, function(prof){
@@ -21,6 +34,7 @@ angular.module('profileKingApp')
             // });
             console.log(profiles);
         }
+
 
         $scope.add = function(){
             _.forEach(profiles, function(profile){

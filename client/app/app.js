@@ -8,7 +8,8 @@ angular.module('profileKingApp', [
   'ngLodash',
   'ngAnimate',
   'ngMaterial',
-  'md.data.table'
+  'md.data.table',
+  'base64'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider

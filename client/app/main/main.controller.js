@@ -56,7 +56,11 @@ angular.module('profileKingApp')
                 if(setting.del) perm[setting.del.field] = false;
                 if(setting.select) perm[setting.select.field] = '';
                 perm[setting.setting.field] = $scope.field.name;
-                profile[$scope.field.typ].push(perm);
+               var idx = _.sortedIndex(profile[$scope.field.typ], perm, function(profile) {
+                  return profile[setting.setting.field];
+                });
+
+                profile[$scope.field.typ].splice(idx, 0, perm);
             });
             setProfiles(profiles);
         }

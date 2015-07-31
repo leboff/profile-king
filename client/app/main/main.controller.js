@@ -1,135 +1,62 @@
 'use strict';
 
 angular.module('profileKingApp')
-  .controller('MainCtrl', function ($scope, $cookies, ngForce, orgs, profile, profileList, FileReader) {
-    $scope.orgs = [];
+    .controller('MainCtrl', function ($scope, $cookies, lodash, profile, profileSettings) {
+        var _ = lodash;
+        var profiles;
+        $scope.permissions = {};
+        var settings = $scope.settings = profileSettings;
+        profile.all().then(function(profs){
+            profiles = profs;
+            console.log(profs);
+            setProfiles(profs);
+        });
 
-    $scope.profiles = profileList;
+        $scope.field = {};
 
-    var manual = orgs.get();
+        $scope.remove = function(profile){
 
+            // _.remove($scope.profiles, function(prof){
+            //     return prof.fullName === profile.fullName;
+            // });
+            console.log(profiles);
+        }
 
-    var cookies = $cookies.getAll();
-    angular.forEach(cookies, function(cookie, key){
-       var regexp = new RegExp('^'+'(jsforce\\d+)'+'_loggedin$');
-       var match = key.match(regexp);
-       if(match && match[0] && match[1] && cookie === 'true'){
-          var org = orgs.get(match[1]);
-          if(org.loggedIn){
-              org.identify().then(function(){
-                  $scope.orgs.push(org);
-              });
-          }
-       }
-    });
-
-    $scope.profileAdded = function(file, ev, flow){
-       
-        FileReader.readAsText(file.file, 'UTF-8', $scope)
-            .then(function(f){
-                var p = new profile(f);
-            });        
-    }
-
-    $scope.addOrg = function(){
-        // var org = orgs.get('jsforce3');
-        // org.identity = {};
-        // org.identity.username = 'test';
-        // $scope.orgs.push(org);
-        var org = orgs.get();
-        org.login()
-            .then(function(){
-                console.log(org);
-                $scope.orgs.push(org);
+        $scope.add = function(){
+            _.forEach(profiles, function(profile){
+                var setting = settings[$scope.field.typ];
+                var perm = {};
+                if(setting.create) perm[setting.create.field] = false;
+                if(setting.read) perm[setting.read.field] = false;
+                if(setting.edit) perm[setting.edit.field] = false;
+                if(setting.del) perm[setting.del.field] = false;
+                if(setting.select) perm[setting.select.field] = '';
+                perm[setting.setting.field] = $scope.field.name;
+                profile[$scope.field.typ].push(perm);
             });
-    }
-    $scope.logOrg = function(){
-        console.log($scope.orgs);
-        console.log($scope.profiles.getProfiles());
-        console.log($scope.profiles.getSettings());
-    }
+            setProfiles(profiles);
+        }
+
+        var setProfiles = function(profs){
+            $scope.profiles = _.map(profs, function(profile){
+                return _.transform(profile, function(res, n, key){
+                    if(_.isArray(n)){
+                       var indexed = _.indexBy(n, settings[key].setting.field)
+                        $scope.permissions[key] = _.union($scope.permissions[key], _.keys(indexed)); 
+                        res[key]= indexed;
+                    }
+                    else{
+                        res[key] = n;
+                    }
+                     
+                });
+            });
 
 
-  });
-    // var force, _ = lodash;
-
-    // $scope.isArray = angular.isArray;
-
-    // $scope.isCollapsed = true;
-    // $scope.profiles = [];
-    // $scope.orgs = [];
-
-    // $scope.profiles = [];
-    // $scope.side = 'lhs';
-
-    // $scope.logOrg = function(){
-    //     console.log($scope.orgs);
-    // }
+            
 
 
+            
+        }
 
-    // var addForce = function(){
-    //     ngForce.new().then(function(client){
-    //         force = client;
-    //     });
-    // }
-
-    // $scope.addOrg = function(){
-    //     force.loginAndIdentify().then(function(){
-    //         $scope.orgs.push(force);
-    //        addForce();
-    //     });
-    // }
-
-
-    // $scope.toggle = function(org){
-    //     console.log(org);
-    //     $scope.isCollapsed = !$scope.isCollapsed;
-    // }
-
-    // $scope.setProfile = function(org, prof, selectedSide){
-    //     org.busy = true;
-    //     prof.$org = org.$loki;
-
-
-    //     org.getProfile(prof.fullName).then(function(profile){
-    //         org.busy = false;
-    //          lokidb.insert('profiles', profile);
-    //         _.forEach(profileSettings, function(props, setting){
-    //             var settings = profile[setting];
-    //             if(_.isArray(settings)){
-    //                  _.forEach(settings, function(value, idx){
-    //                     value.$profile = profile.$loki;
-    //                     value.settingType = setting;
-    //                     lokidb.insert('settings', value);
-    //                 });
-    //             }
-    //             else if(_.isObject(settings)){
-    //                 settings.$profile = profile.$loki;
-    //                 settings.settingType = setting;
-    //                 lokidb.insert('settings', settings);
-    //             }
-
-    //         });
-    //         $scope.profiles.push(profile);
-    //     });
-    // }
-
-
-    // ngForce.existing().then(function(orgs){
-    //     angular.forEach(orgs, function(org){
-
-    //         if(org.isLoggedIn()){
-    //             org.busy = true
-    //             org.identify().then(org.getProfiles).then(function(){
-    //                 org.full_identity = org.identity();
-    //                 org.busy = false;
-    //             });
-    //             lokidb.insert('orgs', org);
-    //             $scope.orgs.push(org);
-
-    //         }
-
-    //     });
-    // });
-    // addForce();
+    });

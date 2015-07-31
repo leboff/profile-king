@@ -2,44 +2,86 @@
 <div layout="row" flex>
     <md-sidenav flex="20" layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
       <md-content  role="navigation" class="md-default-theme">
-      <ul>
-          <li class="parent-list-item">
-              <h2 class="menu-heading md-subhead">
-              Actions
-              </h2>
-          </li>
-          <li>
-
-              <md-button ng-click="addOrg()">Add Org</md-button>
-          </li>
-          <li>
-              <md-button ng-click="logOrg()">Log Orgs</md-button>
-          </li>
-          <li>
-              <div flow-init flow-file-added="profileAdded( $file, $event, $flow )">
-                <md-button flow-btn>Add Profile</md-button>
-              </div>
-          </li>
-
-          <li class="parent-list-item">
-              <h2 class="menu-heading md-subhead">
-                Orgs
-              </h2>
-              <ul>
-                  <li ng-repeat="org in orgs | orderBy : 'identity.username'">
-                    <md-button ng-click="org.profiles.list()">{{org.identity.username}}</md-button>
-                    <ul>
-                      <li ng-repeat="profile in org.profiles | orderBy : 'fullName'">
-                        <md-button ng-click="profile.get()">
-                          {{profile.fullName}}
-                        </md-button>
-                      </li>
-                    </ul>
-                  </li>
-              </ul>
-          </li>
-      </ul>
+        <md-subheader ng-repeat="profile in profiles | orderBy:'fullName'">
+          <div layout="row">
+            <div>
+              {{profile.fullName}}
+            </div>
+            <span flex=""></span>
+            <md-button class="md-icon-button" aria-label="More" ng-click="export(profile)">
+              <md-icon md-svg-icon="bower_components\material-design-icons\file\svg\production\ic_file_download_24px.svg"></md-icon>
+            </md-button>
+            </div>
+        </md-subheader>
       </md-content>
     </md-sidenav>
-  <div ng-include="'app/profileTable/profileTable.html'" flex=""></div>
+  <div flex="">
+    <md-input-container>
+      <label>Find</label>
+      <input type="text" ng-model="search">
+    </md-input-container>
+    <md-select ng-model="field.typ" placeholder="Type">
+        <md-option ng-repeat="(key, permission) in permissions" value="{{key}}">{{settings[key].title}}</md-option>
+    </md-select>
+    <md-input-container ng-if="field.typ">
+      <label>Name</label>
+      <input type="text" ng-model="field.name">
+    </md-input-container>
+    <md-button ng-click="add()">Add</md-button>
+    <div ng-repeat="(key, permission) in permissions">
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h2>
+            <span>{{settings[key].title}}</span>
+          </h2>
+          <span flex=""></span>
+          <md-button class="md-icon-button" aria-label="More" ng-click="showPerms=!showPerms">
+            <md-icon md-svg-icon="bower_components\material-design-icons\navigation\svg\production\ic_more_vert_36px.svg"></md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <div ng-repeat="perm in permission | filter: search" ng-if="showPerms || search" >
+     
+        <table md-data-table >
+            <thead md-table-head>
+                <tr ng-click="showPerm=!showPerm">
+                    <th md-column-header trim name="{{perm}}"></th>
+                    <th md-column-header ng-if="settings[key].create" name="{{settings[key].create.label}}" ></th>
+                    <th md-column-header ng-if="settings[key].read" name="{{settings[key].read.label}}" ></th>
+                    <th md-column-header ng-if="settings[key].edit" name="{{settings[key].edit.label}}" ></th>
+                    <th md-column-header ng-if="settings[key].del" name="{{settings[key].del.label}}" ></th>
+                    <th md-column-header ng-if="settings[key].select" name="{{settings[key].select.label}}" ></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="showPerm" ng-repeat="(name, profile) in profiles | orderBy : 'name' ">
+                    <td>{{profile.fullName}}</td>
+                    <td ng-if="settings[key].create" >
+                       <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="create" 
+                          ng-model="profile[key][perm][settings[key].create.field]"></md-switch>
+                    </td>
+                    <td ng-if="settings[key].read" >
+                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="read" 
+                            ng-model="profile[key][perm][settings[key].read.field]"></md-switch>
+                    </td>
+                    <td ng-if="settings[key].edit" >
+                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="edit" 
+                            ng-model="profile[key][perm][settings[key].edit.field]"></md-switch>
+                    </td>
+                    <td ng-if="settings[key].del" >
+                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="delete" 
+                            ng-model="profile[key][perm][settings[key].del.field]"></md-switch>
+
+                    </td>
+                    <td ng-if="settings[key].select" >
+                        <md-select placeholder="{{settings[key].select.label}}" ng-model="profile[key][perm][settings[key].select.field]">
+                          <md-option ng-repeat="value in settings[key].select.values" value="{{value}}">{{value}}</md-option>
+                        </md-select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

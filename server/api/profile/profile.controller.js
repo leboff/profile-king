@@ -16,23 +16,26 @@ exports.index = function(req, res) {
 	var parse = Promise.denodeify(xml2js);
 	readdir(config.profilesDir)
 		.then(function(files){
-			console.log(files);
 			var promises = [];
 			_.forEach(files, function(file){
-				promises.push(readFile(config.profilesDir+'/'+file,{encoding: 'UTF-8'}));
+				if(endsWith(file, '.profile'))
+					promises.push(readFile(config.profilesDir+'/'+file,{encoding: 'UTF-8'}));
 			});
 			return Promise.all(promises);
 		})
 		.then(function(profiles){
-			console.log(profiles.length);
 			var promises = [];
 			_.forEach(profiles, function(profile){
-				promises.push(parse(profile));
+				promises.push(parse(profile, {explicitArray : false}));
 			});
 			return Promise.all(promises);
 		})
 		.then(function(profiles){
-			res.json(profiles);
+			var results = [];
+			_.forEach(profiles, function(profile){
+				results.push(profile.Profile);
+			});
+			res.json(results);
 		})
 		.catch(function(rej){
 			res.json(rej);

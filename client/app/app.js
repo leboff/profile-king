@@ -5,14 +5,10 @@ angular.module('profileKingApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ngMaterial',
   'ngLodash',
   'ngAnimate',
-  'md.data.table',
-  'base64', 
-  'flow', 
-  'filereader',
-  'xml2js'
+  'ngMaterial',
+  'md.data.table'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -30,6 +26,9 @@ angular.module('profileKingApp', [
         // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
     }
   ])
+  .value('api', {
+    'profiles': '/api/profiles'
+  })
   .value('profileSettings', {
         classAccesses: {
             title: 'Apex Classes',

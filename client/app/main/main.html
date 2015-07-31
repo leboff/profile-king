@@ -2,13 +2,20 @@
 <div layout="row" flex>
     <md-sidenav flex="20" layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
       <md-content layout-padding="" class="md-default-theme" flex="">
-          <div layout="row" ng-repeat="profile in profiles | orderBy:'fullName'">
+          <div layout="row" ng-repeat="profile in profiles | orderBy:'fullName'" ng-click="log(profile)">
               <div><h3>{{profile.fullName}}</h3></div>
-              <span flex=""></span>
-              <div> <a id="{{$index}}-export" ng-href="{{downloads[profile.fullName]}}" target="_blank" download="{{profile.fullName}}.xml" ng-show="downloads[profile.fullName]">Download</a></div>
-              <md-button class="md-icon-button" ng-class="dcolor" aria-label="More" ng-click="download(profile, $index)">
+          </div>
+          <div layout="row" >
+            <div><h3>Download All</h3></div>
+            <md-button class="md-icon-button" ng-class="dcolor" aria-label="More" ng-click="writeAll()">
                 <md-icon md-svg-icon="bower_components\material-design-icons\file\svg\production\ic_file_download_24px.svg"></md-icon>
-              </md-button>
+            </md-button>
+          </div>
+          <div layout="row" >
+            <div><h3>Get Org Profiles</h3></div>
+            <md-button class="md-icon-button" ng-class="dcolor" aria-label="More" ng-click="getProfiles()">
+                  <md-icon md-svg-icon="bower_components\material-design-icons\file\svg\production\ic_file_download_24px.svg"></md-icon>
+            </md-button>
           </div>
       </md-content>
     </md-sidenav>
@@ -54,19 +61,19 @@
                 <tr ng-if="showPerm" ng-repeat="(name, profile) in profiles | orderBy : 'name' ">
                     <td>{{profile.fullName}}</td>
                     <td ng-if="settings[key].create" >
-                       <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="create" 
+                       <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="create" 
                           ng-model="profile[key][perm][settings[key].create.field]"></md-switch>
                     </td>
                     <td ng-if="settings[key].read" >
-                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="read" 
+                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="read" 
                             ng-model="profile[key][perm][settings[key].read.field]"></md-switch>
                     </td>
                     <td ng-if="settings[key].edit" >
-                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="edit" 
+                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="edit" 
                             ng-model="profile[key][perm][settings[key].edit.field]"></md-switch>
                     </td>
                     <td ng-if="settings[key].del" >
-                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" aria-label="delete" 
+                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="delete" 
                             ng-model="profile[key][perm][settings[key].del.field]"></md-switch>
 
                     </td>

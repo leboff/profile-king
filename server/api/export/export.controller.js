@@ -8,6 +8,7 @@ var fs = require('fs');
 exports.index = function(req, res) {
   res.json([]);
 };
+
 exports.download = function(req, res){
   var builder = new xml2js.Builder();
   var xml = builder.buildObject(req.body);

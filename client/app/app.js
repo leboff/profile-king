@@ -112,6 +112,10 @@ angular.module('profileKingApp', [
         layoutAssignments:{
             title: 'Layouts',
             setting:{
+                label: 'Record Type',
+                field: 'recordType'
+            },
+            input:{
                 label: 'Layout',
                 field: 'layout'
             }

@@ -37,6 +37,18 @@ angular.module('profileKingApp')
         $scope.writeAll = function(){
             _.forEach(profiles, profile.write);
         }
+        $scope.removePerm = function(permName, perm){
+            var setting = settings[permName];
+            _.forEach(profiles, function(prof){
+                _.remove(prof[permName], function(profPerm){
+                    return perm == profPerm[setting.setting.field];
+                });
+            });
+            _.remove($scope.permissions[permName], function(listPerm){
+                return listPerm == perm;
+            });
+            setProfiles(profiles);
+        }
         $scope.remove = function(profile){
 
             // _.remove($scope.profiles, function(prof){
@@ -64,7 +76,7 @@ angular.module('profileKingApp')
             });
             setProfiles(profiles);
         }
-
+        
         var setProfiles = function(profs){
             $scope.profiles = _.map(profs, function(profile){
                 return _.transform(profile, function(res, n, key){

@@ -6,7 +6,7 @@
               <div><h3>{{profile.fullName}}</h3></div>
           </div>
           <div layout="row" >
-            <div><h3>Download All</h3></div>
+            <div><h3>Save All</h3></div>
             <md-button class="md-icon-button" ng-class="dcolor" aria-label="More" ng-click="writeAll()">
                 <md-icon md-svg-icon="bower_components\material-design-icons\file\svg\production\ic_file_download_24px.svg"></md-icon>
             </md-button>
@@ -22,7 +22,7 @@
   <div flex="">
     <md-input-container>
       <label>Find</label>
-      <input type="text" ng-model="search">
+      <input type="text" ng-model="search" ng-minlength="3">
     </md-input-container>
     <md-select ng-model="field.typ" placeholder="Type">
         <md-option ng-repeat="(key, permission) in permissions" value="{{key}}">{{settings[key].title}}</md-option>
@@ -32,11 +32,11 @@
       <input type="text" ng-model="field.name">
     </md-input-container>
     <md-button ng-click="add()">Add</md-button>
-    <div ng-repeat="(key, permission) in permissions">
+    <div ng-repeat="(key, permission) in permissions" ng-init="setting = settings[key]">
       <md-toolbar>
         <div class="md-toolbar-tools">
           <h2>
-            <span>{{settings[key].title}}</span>
+            <span>{{setting.title}}</span>
           </h2>
           <span flex=""></span>
           <md-button class="md-icon-button" aria-label="More" ng-click="showPerms=!showPerms">
@@ -45,46 +45,62 @@
         </div>
       </md-toolbar>
       <div ng-repeat="perm in permission | filter: search" ng-if="showPerms || search" >
-     
-        <table md-data-table >
+        <md-data-table-toolbar>
+          <h3 class="md-title" ng-click="showPerm=!showPerm">{{perm}}</h3>
+          <div  ng-click="showPerm=!showPerm" flex=""></div>
+          <md-button class="md-fab md-mini" aria-label="More" ng-click="removePerm(key, perm)">
+            <md-icon md-svg-icon="bower_components\material-design-icons\content\svg\production\ic_remove_circle_24px.svg"></md-icon>
+          </md-button>
+        </md-data-table-toolbar>
+        <md-data-table-container>
+          <table md-data-table ng-if="showPerm">
             <thead md-table-head>
-                <tr ng-click="showPerm=!showPerm">
-                    <th md-column-header trim name="{{perm}}"></th>
-                    <th md-column-header ng-if="settings[key].create" name="{{settings[key].create.label}}" ></th>
-                    <th md-column-header ng-if="settings[key].read" name="{{settings[key].read.label}}" ></th>
-                    <th md-column-header ng-if="settings[key].edit" name="{{settings[key].edit.label}}" ></th>
-                    <th md-column-header ng-if="settings[key].del" name="{{settings[key].del.label}}" ></th>
-                    <th md-column-header ng-if="settings[key].select" name="{{settings[key].select.label}}" ></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-if="showPerm" ng-repeat="(name, profile) in profiles | orderBy : 'name' ">
-                    <td>{{profile.fullName}}</td>
-                    <td ng-if="settings[key].create" >
-                       <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="create" 
-                          ng-model="profile[key][perm][settings[key].create.field]"></md-switch>
-                    </td>
-                    <td ng-if="settings[key].read" >
-                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="read" 
-                            ng-model="profile[key][perm][settings[key].read.field]"></md-switch>
-                    </td>
-                    <td ng-if="settings[key].edit" >
-                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="edit" 
-                            ng-model="profile[key][perm][settings[key].edit.field]"></md-switch>
-                    </td>
-                    <td ng-if="settings[key].del" >
-                        <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="delete" 
-                            ng-model="profile[key][perm][settings[key].del.field]"></md-switch>
+                  <tr>
+                      <th md-column-header trim name="{{perm}}"></th>
+                      <th md-column-header ng-if="setting.create" name="{{setting.create.label}}" ></th>
+                      <th md-column-header ng-if="setting.read" name="{{setting.read.label}}" ></th>
+                      <th md-column-header ng-if="setting.edit" name="{{setting.edit.label}}" ></th>
+                      <th md-column-header ng-if="setting.del" name="{{setting.del.label}}" ></th>
+                      <th md-column-header ng-if="setting.select" name="{{setting.select.label}}" ></th>
+                      <th md-column-header ng-if="setting.input" name="{{setting.input.label}}" ></th>
+                  </tr>
 
-                    </td>
-                    <td ng-if="settings[key].select" >
-                        <md-select placeholder="{{settings[key].select.label}}" ng-model="profile[key][perm][settings[key].select.field]">
-                          <md-option ng-repeat="value in settings[key].select.values" value="{{value}}">{{value}}</md-option>
-                        </md-select>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+              </thead>
+
+              <tbody>
+                  <tr ng-repeat="(name, profile) in profiles | orderBy : 'name' " ng-init="profPerm = profile[key][perm]">
+                      <td>{{profile.fullName}}</td>
+                      <td ng-if="setting.create" >
+                         <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="create" 
+                            ng-model="profPerm[setting.create.field]"></md-switch>
+                      </td>
+                      <td ng-if="setting.read" >
+                          <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="read" 
+                              ng-model="profPerm[setting.read.field]"></md-switch>
+                      </td>
+                      <td ng-if="setting.edit" >
+                          <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="edit" 
+                              ng-model="profPerm[setting.edit.field]"></md-switch>
+                      </td>
+                      <td ng-if="setting.del" >
+                          <md-switch class="md-primary" md-no-ink="" ng-true-value="'true'" ng-false-value="'false'" aria-label="delete" 
+                              ng-model="profPerm[setting.del.field]"></md-switch>
+
+                      </td>
+                      <td ng-if="setting.select" >
+                          <md-select placeholder="{{setting.select.label}}" ng-model="profPerm[setting.select.field]">
+                            <md-option ng-repeat="value in setting.select.values" value="{{value}}">{{value}}</md-option>
+                          </md-select>
+                      </td>
+                      <td ng-if="setting.input" >
+                        <md-input-container>
+                          <input ng-model="profPerm[setting.input.field]"></input>
+                        </md-input-container>
+                      </td>
+                  </tr>
+              </tbody>
+            </table>
+          </md-data-table-container>
       </div>
     </div>
   </div>
